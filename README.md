@@ -1,338 +1,462 @@
 # AnomalyWatch
 
-**Real-Time System Anomaly Detection Platform**
+## Real-Time System Anomaly Detection Platform for Edge Devices
 
-AnomalyWatch is a production-grade local monitoring system that uses hybrid machine learning (Isolation Forest + Z-score) to detect anomalies in real-time system metrics. Features include a dark-themed web dashboard with live charts, SSE streaming, desktop notifications, and optional Raspberry Pi GPIO alerts.
+AnomalyWatch is a real-time system anomaly detection platform designed for edge and embedded Linux devices. It continuously monitors system resources, learns normal operating behavior using machine learning and statistical analysis, and automatically detects abnormal conditions through live anomaly scoring and alerting.
+
+Built with Python and Flask, the platform combines real-time monitoring, anomaly detection, historical analytics, and automated testing in a lightweight dashboard optimized for resource-constrained edge hardware.
+
+---
+
+## Screenshots
+
+### Live Monitoring Dashboard
+
+screenshots/Screenshot 2026-07-05 173635.png
+
+Real-time monitoring of CPU, memory, disk I/O, network traffic, temperature, and anomaly score from a unified dashboard.
+
+### Anomaly Detection & Alerts
+
+screenshots/anomaly-alerts.png
+
+Instant anomaly detection with live scoring, warning notifications, and alert tracking.
+
+### Testing & Baseline Analysis
+
+screenshots/Screenshot 2026-07-05 173702.png
+
+Built-in anomaly generators and baseline learning for validating detection behavior.
+
+---
+
+## Highlights
+
+✅ Real-time anomaly detection
+
+✅ Isolation Forest + Statistical Analysis
+
+✅ Live Dashboard with SSE Streaming
+
+✅ SQLite-Based Historical Analytics
+
+✅ Desktop & GPIO Alerting
+
+✅ Built-in Anomaly Testing Framework
+
+✅ Edge Device Optimized
+
+✅ Fully Offline Operation
+
+✅ Zero Cloud Dependency
 
 ---
 
 ## Features
 
-- **Hybrid ML Detection**: Combines Isolation Forest (unsupervised) and Z-score (statistical) methods for accurate anomaly detection
-- **Real-Time Monitoring**: 5-second monitoring intervals with live dashboard updates via Server-Sent Events
-- **Comprehensive Metrics**: CPU, memory, disk I/O, network, temperature, processes, threads, load average
-- **Baseline Learning**: Automatic 15-minute baseline learning phase (configurable)
-- **Web Dashboard**: Dark-themed responsive UI built with Tailwind CSS and Chart.js
-- **Alert System**: Desktop notifications, optional Raspberry Pi GPIO (LEDs + buzzer)
-- **Testing Tools**: Built-in anomaly generators for validation (CPU, memory, disk, network, thread spikes)
-- **Data Persistence**: SQLite database with configurable retention (default 7 days)
-- **Production Ready**: Full error handling, logging, systemd service, no placeholders
+### Machine Learning-Based Detection
+
+- Hybrid anomaly detection using Isolation Forest and Z-score analysis
+- Automatic baseline learning and normalization
+- 0-100 anomaly scoring
+- Configurable warning and critical thresholds
+- Model persistence across restarts
+
+### Real-Time Monitoring
+
+- 5-second metric collection interval
+- CPU utilization monitoring
+- Memory and swap tracking
+- Disk I/O statistics
+- Network traffic monitoring
+- Temperature monitoring
+- Process and thread analysis
+- System load average tracking
+
+### Dashboard & Analytics
+
+- Dark-themed responsive dashboard
+- Live Chart.js visualizations
+- Anomaly score trends
+- Baseline statistics viewer
+- Historical anomaly tracking
+- Anomaly overlays on charts
+
+### Alerting
+
+- Live dashboard notifications
+- Desktop notifications using Plyer
+- SQLite alert logging
+- Optional GPIO LEDs and buzzer support
+- Alert acknowledgement workflow
+
+### Testing & Validation
+
+- CPU spike generator
+- Memory spike generator
+- Disk I/O workload generator
+- Network activity generator
+- Thread spike generator
+- Demo mode for validation
+
+---
+
+## Technology Stack
+
+### Backend
+
+- Python
+- Flask
+- SQLite
+- psutil
+- Scikit-learn
+
+### Frontend
+
+- TailwindCSS
+- Chart.js
+- JavaScript
+
+### Machine Learning
+
+- Isolation Forest
+- Z-Score Statistical Analysis
+
+### Real-Time Communication
+
+- Server-Sent Events (SSE)
+
+### Hardware Support
+
+- Ubuntu Linux
+- ARM64 Edge Devices
+- Rubik Pi 3
+- Raspberry Pi
+
+---
+
+## Use Cases
+
+- Edge Device Health Monitoring
+- Embedded Linux Diagnostics
+- System Performance Analysis
+- Resource Anomaly Detection
+- AI Workload Monitoring
+- Industrial IoT Monitoring
+- Preventive Maintenance
+- Infrastructure Health Monitoring
 
 ---
 
 ## Quick Start
 
-### Prerequisites
+### Clone Repository
 
-- Ubuntu 24.04 (or compatible Linux distribution)
-- Python 3.10 or higher
-- 4GB RAM minimum (8GB recommended)
-- Internet connection for initial setup
+```bash
+git clone https://github.com/<your-username>/AnomalyWatch.git
+cd AnomalyWatch
+```
 
-### Installation
+### Create Virtual Environment
 
-1. **Clone or download the project**:
-   ```bash
-   cd /path/to/anamoly_detection
-   ```
+```bash
+python3 -m venv venv
+source venv/bin/activate
+```
 
-2. **Run the installation script**:
-   ```bash
-   chmod +x deploy/install.sh
-   ./deploy/install.sh
-   ```
+### Install Dependencies
 
-3. **Start the service**:
-   ```bash
-   sudo systemctl start anomalywatch
-   ```
+```bash
+pip install -r requirements.txt
+```
 
-4. **Access the dashboard**:
-   Open your browser to `http://localhost:5000`
+### Run Application
 
-5. **Wait for baseline learning** (15 minutes):
-   The system will collect baseline data before starting anomaly detection.
+```bash
+python app.py
+```
+
+### Open Dashboard
+
+```text
+http://localhost:5000
+```
+
+The system will automatically begin collecting baseline data before switching to anomaly detection mode.
 
 ---
 
-## Usage
+## Dashboard Overview
 
-### Dashboard Interface
+### Live Monitoring
 
-The dashboard includes 5 tabs:
+- CPU Metrics
+- Memory Usage
+- Disk I/O
+- Network Traffic
+- Anomaly Score
+- Live Alert Feed
 
-1. **Live Monitoring**: Real-time charts for CPU, memory, disk, network, and anomaly score
-2. **History**: Recent alerts and historical data
-3. **Baseline**: View baseline statistics for all metrics
-4. **Testing**: Trigger synthetic anomalies for testing
-5. **Settings**: View current configuration
+### History
 
-### API Endpoints
+- Alert History
+- Anomaly Events
+- Score Analysis
 
-- `GET /api/metrics/latest` - Latest metric values
-- `GET /api/metrics/history?metric=cpu_percent&duration=300` - Historical data
-- `GET /api/baseline/stats` - Baseline statistics
-- `POST /api/baseline/train` - Retrain baseline
-- `GET /api/alerts?active_only=true` - Recent alerts
-- `POST /api/alerts/{id}/acknowledge` - Acknowledge alert
-- `GET /api/system/status` - System health check
-- `POST /api/testing/generate-anomaly` - Trigger test anomaly
+### Baseline
 
-### SSE Stream
+- Learned Normal Behavior
+- Metric Statistics
+- Detection Thresholds
 
-- `GET /stream/metrics` - Real-time event stream for dashboard updates
+### Testing
 
-Event types: `metric`, `anomaly`, `alert`, `status`, `heartbeat`
+- Generate Synthetic Anomalies
+- Validate Detection Logic
+- Benchmark System Response
+
+### Settings
+
+- Current Configuration
+- Detection Parameters
+- Alert Settings
+
+---
+
+## REST API
+
+### Metrics
+
+```http
+GET /api/metrics/latest
+```
+
+```http
+GET /api/metrics/history?metric=cpu_percent&duration=300
+```
+
+### Baseline
+
+```http
+GET /api/baseline/stats
+```
+
+```http
+POST /api/baseline/train
+```
+
+### Alerts
+
+```http
+GET /api/alerts
+```
+
+```http
+POST /api/alerts/{id}/acknowledge
+```
+
+### System
+
+```http
+GET /api/system/status
+```
+
+### Testing
+
+```http
+POST /api/testing/generate-anomaly
+```
+
+---
+
+## SSE Event Streaming
+
+Real-time updates are delivered through Server-Sent Events.
+
+```http
+GET /stream/metrics
+```
+
+Supported event types:
+
+- metric
+- anomaly
+- alert
+- status
+- heartbeat
 
 ---
 
 ## Architecture
 
-```
+```text
 ┌─────────────────┐
-│   Web Dashboard │ (Tailwind + Chart.js)
-└────────┬────────┘
-         │ SSE + REST API
-┌────────▼────────┐
-│  Flask Backend  │ (Routes: dashboard, api, stream)
+│   Web Dashboard │
+│ TailwindCSS     │
+│ Chart.js        │
 └────────┬────────┘
          │
-┌────────▼────────────────────────────┐
-│        Monitoring Service           │
-│  ┌──────────┐  ┌──────────────────┐│
-│  │ Baseline │  │  Alert Service   ││
-│  │ Manager  │  │  SSE Service     ││
-│  └──────────┘  └──────────────────┘│
-└────────┬────────────────────────────┘
+         │ REST API + SSE
+         ▼
+┌─────────────────┐
+│ Flask Backend   │
+└────────┬────────┘
          │
-┌────────▼───────────────────┐
-│  Anomaly Detection Engine  │
-│  ┌────────────────────────┐│
-│  │  Isolation Forest      ││
-│  │  + Z-Score (60/40)     ││
-│  └────────────────────────┘│
-└────────┬───────────────────┘
+         ▼
+┌─────────────────┐
+│ Monitoring Core │
+├─────────────────┤
+│ Metric Collector│
+│ Baseline Engine │
+│ Alert Service   │
+│ SSE Service     │
+└────────┬────────┘
          │
-┌────────▼────────┐
-│ Metric Collector│ (psutil)
-└─────────────────┘
+         ▼
+┌─────────────────┐
+│ Detection Engine│
+├─────────────────┤
+│ IsolationForest │
+│ Z-Score Analysis│
+└────────┬────────┘
          │
-┌────────▼────────┐
-│  System Metrics │
+         ▼
+┌─────────────────┐
+│ SQLite Storage  │
 └─────────────────┘
 ```
 
 ---
 
-## Configuration
+## Project Structure
 
-Environment variables (defaults shown):
-
-```bash
-# Database
-ANOMALY_DB_PATH=./anomalywatch.db
-ANOMALY_DB_RETENTION_DAYS=7
-
-# Monitoring
-ANOMALY_MONITOR_INTERVAL=5
-ANOMALY_BASELINE_MINUTES=15
-ANOMALY_ENABLE_BASELINE=true
-
-# Detection
-ANOMALY_IF_CONTAMINATION=0.1
-ANOMALY_ZSCORE_THRESHOLD=3.0
-ANOMALY_IF_WEIGHT=0.6
-ANOMALY_ZSCORE_WEIGHT=0.4
-ANOMALY_WARNING_THRESHOLD=30
-ANOMALY_CRITICAL_THRESHOLD=70
-
-# Alerts
-ANOMALY_ENABLE_DESKTOP=true
-ANOMALY_ENABLE_GPIO=false
-ANOMALY_ALERT_COOLDOWN=60
-
-# Flask
-FLASK_HOST=0.0.0.0
-FLASK_PORT=5000
-FLASK_DEBUG=false
-
-# Logging
-LOG_LEVEL=INFO
+```text
+AnomalyWatch/
+│
+├── app.py
+├── requirements.txt
+├── anomalywatch.db
+│
+├── collectors/
+├── detectors/
+├── services/
+├── routes/
+├── database/
+├── config/
+├── testing/
+├── gpio/
+│
+├── templates/
+├── static/
+├── screenshots/
+├── docs/
+└── deploy/
 ```
-
----
-
-## Raspberry Pi GPIO Setup
-
-For hardware alerts on Raspberry Pi:
-
-1. **Install GPIO library**:
-   ```bash
-   pip install RPi.GPIO
-   ```
-
-2. **Enable GPIO alerts**:
-   ```bash
-   export ANOMALY_ENABLE_GPIO=true
-   ```
-
-3. **Wire connections** (BCM pin numbering):
-   - Green LED: GPIO 17
-   - Yellow LED: GPIO 27
-   - Red LED: GPIO 22
-   - Buzzer: GPIO 23
-   - Ground: Any GND pin
-
-**Alert Patterns**:
-- Normal: Green LED solid
-- Warning: Yellow LED blinking (1s interval)
-- Critical: Red LED + buzzer blinking (0.3s interval)
 
 ---
 
 ## Testing Anomaly Detection
 
-Use the Testing tab in the dashboard or API:
+### CPU Spike
 
 ```bash
-# CPU spike (10 seconds, intensity 7)
 curl -X POST http://localhost:5000/api/testing/generate-anomaly \
-  -H "Content-Type: application/json" \
-  -d '{"type":"cpu","duration":10,"intensity":7}'
+-H "Content-Type: application/json" \
+-d '{"type":"cpu","duration":10,"intensity":7}'
+```
 
-# Memory spike
+### Memory Spike
+
+```bash
 curl -X POST http://localhost:5000/api/testing/generate-anomaly \
-  -H "Content-Type: application/json" \
-  -d '{"type":"memory","duration":15,"intensity":5}'
+-H "Content-Type: application/json" \
+-d '{"type":"memory","duration":15,"intensity":5}'
 ```
 
-Available types: `cpu`, `memory`, `disk`, `network`, `thread`
+### Supported Anomaly Types
+
+- cpu
+- memory
+- disk
+- network
+- thread
 
 ---
 
-## Service Management
+## Raspberry Pi / GPIO Support
 
-```bash
-# Start service
-sudo systemctl start anomalywatch
+Optional hardware alerting is supported through GPIO outputs.
 
-# Stop service
-sudo systemctl stop anomalywatch
+### Supported Outputs
 
-# Restart service
-sudo systemctl restart anomalywatch
+- Green LED (Normal)
+- Yellow LED (Warning)
+- Red LED (Critical)
+- Buzzer (Critical)
 
-# Check status
-sudo systemctl status anomalywatch
+### GPIO Mapping
 
-# View logs
-journalctl -u anomalywatch -f
-
-# Enable auto-start on boot
-sudo systemctl enable anomalywatch
-
-# Disable auto-start
-sudo systemctl disable anomalywatch
-```
-
----
-
-## Development
-
-### Running Locally (Without systemd)
-
-```bash
-# Create virtual environment
-python3 -m venv venv
-source venv/bin/activate
-
-# Install dependencies
-pip install -r deploy/requirements.txt
-
-# Run application
-python app.py
-```
-
-### Project Structure
-
-See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for detailed architecture documentation.
-
----
-
-## Troubleshooting
-
-### Service won't start
-```bash
-# Check logs for errors
-journalctl -u anomalywatch -n 50
-
-# Check permissions
-sudo chown -R anomalywatch:anomalywatch /opt/anomalywatch
-
-# Verify Python version
-python3 --version  # Should be 3.10+
-```
-
-### Dashboard not loading
-```bash
-# Check if service is running
-sudo systemctl status anomalywatch
-
-# Check if port 5000 is in use
-sudo lsof -i :5000
-
-# Try accessing locally
-curl http://localhost:5000/health
-```
-
-### No anomalies detected
-- Wait for baseline learning to complete (15 minutes)
-- Use Testing tab to generate synthetic anomalies
-- Check detection thresholds in configuration
-- Review logs for ML training errors
-
-### High memory usage
-- Reduce data retention: `ANOMALY_DB_RETENTION_DAYS=3`
-- Reduce monitoring interval: `ANOMALY_MONITOR_INTERVAL=10`
-- Clean up old database: `sqlite3 anomalywatch.db "VACUUM;"`
+| Component | GPIO Pin |
+|------------|-----------|
+| Green LED | GPIO 17 |
+| Yellow LED | GPIO 27 |
+| Red LED | GPIO 22 |
+| Buzzer | GPIO 23 |
 
 ---
 
 ## Performance
 
-**Resource Usage** (typical):
-- CPU: 2-5% average
-- Memory: 150-300 MB
-- Disk: ~1 MB/hour (compressed logs + database)
-- Network: Minimal (SSE streaming to dashboard clients)
+Typical resource consumption:
 
-**Scalability**:
-- Tested: Up to 10 concurrent dashboard clients
-- Database: Handles millions of metric records efficiently
-- Monitoring overhead: < 0.1s per 5-second cycle
+| Resource | Usage |
+|-----------|---------|
+| CPU | 2-5% |
+| Memory | 150-300 MB |
+| Database Growth | ~1 MB/hour |
+| Monitoring Interval | 5 seconds |
+
+### Tested Capacity
+
+- 10+ concurrent dashboard clients
+- Millions of stored metric records
+- Fully local deployment
+
+---
+
+## Future Enhancements
+
+- Multi-device monitoring
+- Prometheus integration
+- Grafana export
+- WebSocket support
+- Model retraining automation
+- Docker deployment
+
+---
+
+## Resume Summary
+
+Built a real-time anomaly detection platform using Isolation Forest, Flask, SQLite, and psutil for monitoring CPU, memory, disk, network, and thermal metrics on edge Linux systems with automated anomaly scoring and alerting.
 
 ---
 
 ## License
 
-MIT License - See LICENSE file for details
+MIT License
 
 ---
 
-## Support
+## Author
 
-For issues, questions, or contributions:
-- GitHub Issues: [Project Repository]
-- Documentation: [docs/](docs/)
-- API Reference: [docs/API.md](docs/API.md)
+**Manikandan M**
+
+GitHub: https://github.com/atjay2002
+
+LinkedIn: https://www.linkedin.com/in/mani2002
 
 ---
 
-## Acknowledgments
+## Star the Repository
 
-Built with:
-- Flask (web framework)
-- scikit-learn (machine learning)
-- psutil (system monitoring)
-- Chart.js (visualization)
-- Tailwind CSS (styling)
+If you find this project useful, consider giving it a ⭐ on GitHub.
