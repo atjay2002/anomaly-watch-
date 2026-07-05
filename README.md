@@ -12,19 +12,25 @@ Built with Python and Flask, the platform combines real-time monitoring, anomaly
 
 ### Live Monitoring Dashboard
 
-screenshots/live-dashboard.png
+<p align="center">
+  <img src="screenshots/live-dashboard.png" alt="Live Dashboard">
+</p>
 
 Real-time monitoring of CPU, memory, disk I/O, network traffic, temperature, and anomaly score from a unified dashboard.
 
 ### Anomaly Detection & Alerts
 
-screenshots/anomaly-alerts.png
+<p align="center">
+  <img src="screenshots/anomaly-alerts.png" alt="Live Dashboard">
+</p>
 
 Instant anomaly detection with live scoring, warning notifications, and alert tracking.
 
 ### Testing & Baseline Analysis
 
-screenshots/testing-dashboard.png
+<p align="center">
+  <img src="screenshots/testing-dashboard.png" alt="Live Dashboard">
+</p>
 
 Built-in anomaly generators and baseline learning for validating detection behavior.
 
