@@ -1,0 +1,19 @@
+[Unit]
+Description=AnomalyWatch - Real-Time System Anomaly Detection
+After=network.target
+
+[Service]
+Type=simple
+User=anomalywatch
+Group=anomalywatch
+WorkingDirectory=/opt/anomalywatch
+Environment="PATH=/opt/anomalywatch/venv/bin"
+ExecStart=/opt/anomalywatch/venv/bin/python /opt/anomalywatch/app.py
+Restart=on-failure
+RestartSec=10
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=anomalywatch
+
+[Install]
+WantedBy=multi-user.target

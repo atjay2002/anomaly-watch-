@@ -1,0 +1,142 @@
+{
+  "cpu_percent": {
+    "mean": 0.4265193370165745,
+    "std_dev": 1.5802522827860082,
+    "min": 0.0,
+    "max": 13.6,
+    "sample_count": 181
+  },
+  "cpu_freq_mhz": {
+    "mean": 973.0475138121549,
+    "std_dev": 122.21604164904178,
+    "min": 729.6,
+    "max": 1427.1999999999998,
+    "sample_count": 181
+  },
+  "cpu_temperature": {
+    "mean": 50.09337016574585,
+    "std_dev": 4.987549162968979,
+    "min": 45.3,
+    "max": 64.7,
+    "sample_count": 181
+  },
+  "memory_used_mb": {
+    "mean": 673.387992058011,
+    "std_dev": 74.79825825723066,
+    "min": 659.92578125,
+    "max": 1379.69921875,
+    "sample_count": 181
+  },
+  "memory_available_mb": {
+    "mean": 6611.365914191989,
+    "std_dev": 74.79825825723066,
+    "min": 5905.0546875,
+    "max": 6624.828125,
+    "sample_count": 181
+  },
+  "memory_percent": {
+    "mean": 9.233149171270718,
+    "std_dev": 1.0241317707332782,
+    "min": 9.1,
+    "max": 18.9,
+    "sample_count": 181
+  },
+  "swap_percent": {
+    "mean": 0.0,
+    "std_dev": 0.0,
+    "min": 0.0,
+    "max": 0.0,
+    "sample_count": 181
+  },
+  "disk_usage_percent": {
+    "mean": 11.0,
+    "std_dev": 0.0,
+    "min": 11.0,
+    "max": 11.0,
+    "sample_count": 181
+  },
+  "disk_read_bytes_per_sec": {
+    "mean": 0.0,
+    "std_dev": 0.0,
+    "min": 0.0,
+    "max": 0.0,
+    "sample_count": 181
+  },
+  "disk_write_bytes_per_sec": {
+    "mean": 1584072.4743781004,
+    "std_dev": 14886600.86980408,
+    "min": 0.0,
+    "max": 182420057.26410857,
+    "sample_count": 181
+  },
+  "network_sent_bytes_per_sec": {
+    "mean": 197.58684363140947,
+    "std_dev": 607.5122254208902,
+    "min": 0.0,
+    "max": 6724.053418566297,
+    "sample_count": 181
+  },
+  "network_recv_bytes_per_sec": {
+    "mean": 118.21043202378291,
+    "std_dev": 194.7240123948012,
+    "min": 0.0,
+    "max": 1600.008228474685,
+    "sample_count": 181
+  },
+  "network_packets_sent_per_sec": {
+    "mean": 1.3470865852836285,
+    "std_dev": 1.7587573349377967,
+    "min": 0.0,
+    "max": 15.263935521011968,
+    "sample_count": 181
+  },
+  "network_packets_recv_per_sec": {
+    "mean": 1.3847426054458107,
+    "std_dev": 1.8508426011555268,
+    "min": 0.0,
+    "max": 16.230007389430448,
+    "sample_count": 181
+  },
+  "process_count": {
+    "mean": 277.72375690607737,
+    "std_dev": 1.3133144046403098,
+    "min": 274.0,
+    "max": 281.0,
+    "sample_count": 181
+  },
+  "thread_count": {
+    "mean": 363.45303867403317,
+    "std_dev": 15.081152634981496,
+    "min": 358.0,
+    "max": 505.0,
+    "sample_count": 181
+  },
+  "load_average_1min": {
+    "mean": 0.027791565953038673,
+    "std_dev": 0.05579776582294127,
+    "min": 0.0,
+    "max": 0.2607421875,
+    "sample_count": 181
+  },
+  "load_average_5min": {
+    "mean": 0.04545871460635359,
+    "std_dev": 0.04219019213564014,
+    "min": 0.0,
+    "max": 0.13916015625,
+    "sample_count": 181
+  },
+  "load_average_15min": {
+    "mean": 0.056829463052486186,
+    "std_dev": 0.02380650850020994,
+    "min": 0.01416015625,
+    "max": 0.0966796875,
+    "sample_count": 181
+  },
+  "uptime_seconds": {
+    "mean": 24212.84760317091,
+    "std_dev": 261.3874321890749,
+    "min": 23761.498749256134,
+    "max": 24663.025894641876,
+    "sample_count": 181
+  }
+}

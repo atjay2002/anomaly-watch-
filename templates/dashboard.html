@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <style>
+        body { background: #0f172a; color: #e2e8f0; font-family: 'Inter', system-ui, sans-serif; }
+        .tab-active { border-bottom: 2px solid #3b82f6; color: #3b82f6; }
+        .severity-normal { color: #10b981; }
+        .severity-warning { color: #f59e0b; }
+        .severity-critical { color: #ef4444; }
+        .alert-card { animation: slideIn 0.3s ease; }
+        @keyframes slideIn { from { transform: translateX(100%); } to { transform: translateX(0); } }
+        .chart-container { position: relative; height: 250px; }
+    </style>
+</head>
+<body class="p-6">
+    <div class="max-w-7xl mx-auto">
+        <!-- Header -->
+        <header class="mb-8 flex items-center justify-between">
+            <div>
+                <h1 class="text-3xl font-bold mb-2">⚡ AnomalyWatch</h1>
+                <p class="text-gray-400">Real-Time System Anomaly Detection</p>
+            </div>
+            <div class="text-right">
+                <div id="system-status" class="text-lg font-semibold">
+                    <span class="severity-normal">● System Healthy</span>
+                </div>
+                <div class="text-sm text-gray-500 mt-1">
+                    Connected Clients: <span id="client-count">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Status Bar -->
+        <div id="status-bar" class="mb-6 p-4 bg-gray-800 rounded-lg hidden">
+            <div class="flex items-center">
+                <svg class="animate-spin h-5 w-5 mr-3 text-blue-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                <span id="status-message">Initializing...</span>
+            </div>
+        </div>
+
+        <!-- Tabs -->
+        <div class="border-b border-gray-700 mb-6">
+            <nav class="flex space-x-6">
+                <button class="tab-button tab-active px-3 py-2 font-medium" data-tab="live">Live Monitoring</button>
+                <button class="tab-button px-3 py-2 font-medium text-gray-400 hover:text-gray-200" data-tab="history">History</button>
+                <button class="tab-button px-3 py-2 font-medium text-gray-400 hover:text-gray-200" data-tab="baseline">Baseline</button>
+                <button class="tab-button px-3 py-2 font-medium text-gray-400 hover:text-gray-200" data-tab="testing">Testing</button>
+                <button class="tab-button px-3 py-2 font-medium text-gray-400 hover:text-gray-200" data-tab="settings">Settings</button>
+            </nav>
+        </div>
+
+        <!-- Live Monitoring Tab -->
+        <div id="tab-live" class="tab-content">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <div class="bg-gray-800 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold mb-3">CPU Metrics</h3>
+                    <div class="chart-container"><canvas id="chart-cpu"></canvas></div>
+                </div>
+                <div class="bg-gray-800 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold mb-3">Memory Usage</h3>
+                    <div class="chart-container"><canvas id="chart-memory"></canvas></div>
+                </div>
+                <div class="bg-gray-800 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold mb-3">Disk I/O</h3>
+                    <div class="chart-container"><canvas id="chart-disk"></canvas></div>
+                </div>
+                <div class="bg-gray-800 p-4 rounded-lg">
+                    <h3 class="text-lg font-semibold mb-3">Network Traffic</h3>
+                    <div class="chart-container"><canvas id="chart-network"></canvas></div>
+                </div>
+            </div>
+            <div class="bg-gray-800 p-4 rounded-lg">
+                <h3 class="text-lg font-semibold mb-3">Anomaly Score</h3>
+                <div class="chart-container" style="height: 200px;"><canvas id="chart-anomaly"></canvas></div>
+            </div>
+        </div>
+
+        <!-- History Tab -->
+        <div id="tab-history" class="tab-content hidden">
+            <div class="bg-gray-800 p-6 rounded-lg mb-4">
+                <h3 class="text-lg font-semibold mb-4">Recent Alerts</h3>
+                <div id="alert-history" class="space-y-2"></div>
+            </div>
+        </div>
+
+        <!-- Baseline Tab -->
+        <div id="tab-baseline" class="tab-content hidden">
+            <div class="bg-gray-800 p-6 rounded-lg">
+                <h3 class="text-lg font-semibold mb-4">Baseline Statistics</h3>
+                <button onclick="retrainBaseline()" class="mb-4 px-4 py-2 bg-blue-600 hover:bg-blue-700 rounded">Retrain Baseline</button>
+                <div id="baseline-stats" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4"></div>
+            </div>
+        </div>
+
+        <!-- Testing Tab -->
+        <div id="tab-testing" class="tab-content hidden">
+            <div class="bg-gray-800 p-6 rounded-lg">
+                <h3 class="text-lg font-semibold mb-4">Anomaly Generators</h3>
+                <p class="text-gray-400 mb-4">Trigger synthetic anomalies for testing detection accuracy.</p>
+                <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <button onclick="triggerAnomaly('cpu')" class="px-4 py-3 bg-red-600 hover:bg-red-700 rounded">CPU Spike</button>
+                    <button onclick="triggerAnomaly('memory')" class="px-4 py-3 bg-red-600 hover:bg-red-700 rounded">Memory Spike</button>
+                    <button onclick="triggerAnomaly('disk')" class="px-4 py-3 bg-red-600 hover:bg-red-700 rounded">Disk Spike</button>
+                    <button onclick="triggerAnomaly('network')" class="px-4 py-3 bg-red-600 hover:bg-red-700 rounded">Network Spike</button>
+                    <button onclick="triggerAnomaly('thread')" class="px-4 py-3 bg-red-600 hover:bg-red-700 rounded">Thread Bomb</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Settings Tab -->
+        <div id="tab-settings" class="tab-content hidden">
+            <div class="bg-gray-800 p-6 rounded-lg">
+                <h3 class="text-lg font-semibold mb-4">Configuration</h3>
+                <div class="space-y-4">
+                    <div><label class="block text-sm text-gray-400 mb-1">Monitoring Interval</label><p class="text-lg">{{ monitoring_interval }} seconds</p></div>
+                    <div><label class="block text-sm text-gray-400 mb-1">Baseline Duration</label><p class="text-lg">{{ baseline_duration_minutes }} minutes</p></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Alert Panel (Fixed Position) -->
+        <div id="alert-panel" class="fixed top-4 right-4 w-80 space-y-2 z-50"></div>
+    </div>
+
+    <script src="/static/js/sse-client.js"></script>
+    <script src="/static/js/charts.js"></script>
+    <script src="/static/js/dashboard.js"></script>
+</body>
+</html>

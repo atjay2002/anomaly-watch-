@@ -1,0 +1,121 @@
+# ---------------------------------------
+# Python
+# ---------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+coverage/
+htmlcov/
+
+# ---------------------------------------
+# Virtual Environments
+# ---------------------------------------
+venv/
+env/
+myenv/
+.venv/
+
+# ---------------------------------------
+# Claude
+# ---------------------------------------
+.claude/
+claude*
+CLAUDE.md
+
+# ---------------------------------------
+# VSCode / IDE
+# ---------------------------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# ---------------------------------------
+# Database
+# ---------------------------------------
+*.db
+*.sqlite
+*.sqlite3
+
+# Keep schema examples if any
+!schema.sql
+
+# ---------------------------------------
+# Logs
+# ---------------------------------------
+logs/
+*.log
+
+# ---------------------------------------
+# ML Models
+# ---------------------------------------
+models/*.pkl
+models/*.joblib
+models/*.onnx
+models/*.tflite
+
+# Keep model directory structure
+!models/.gitkeep
+
+# ---------------------------------------
+# Runtime Files
+# ---------------------------------------
+*.pid
+*.lock
+*.tmp
+*.cache
+
+# ---------------------------------------
+# Reports / Exports
+# ---------------------------------------
+reports/
+exports/
+*.csv
+*.pdf
+*.html
+
+# Keep dashboard templates
+!templates/*.html
+
+# ---------------------------------------
+# OS Files
+# ---------------------------------------
+.DS_Store
+Thumbs.db
+
+# ---------------------------------------
+# Environment Variables
+# ---------------------------------------
+.env
+.env.*
+!.env.example
+
+# ---------------------------------------
+# Build Artifacts
+# ---------------------------------------
+dist/
+build/
+*.egg-info/
+
+# ---------------------------------------
+# Testing Artifacts
+# ---------------------------------------
+.coverage
+nosetests.xml
+pytestdebug.log
+
+# ---------------------------------------
+# Rubik Pi / GPIO Generated Files
+# ---------------------------------------
+gpio_state/
+runtime/
+
+# ---------------------------------------
+# AnomalyWatch Specific
+# ---------------------------------------
+anomalywatch.db
+baseline.db
+anomaly_model.pkl
+isolation_forest.pkl
